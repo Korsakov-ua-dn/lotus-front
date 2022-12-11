@@ -1,6 +1,5 @@
-export const getActualTraidingData = (start: number, finish: number, biddersCount: number) => {
-    const date = new Date(); 
-    const nowUtc = date.getTime() - date.getTimezoneOffset() * 60 * 1000 // текущее время в мс с поправкой на UTC
+export const getActualTraidingData = (start: number, timeOffset: number, finish: number, biddersCount: number) => {
+    const nowUtc = new Date().getTime() - timeOffset; 
     const tradingIsActive =  nowUtc < finish && nowUtc > start
   
     if (!tradingIsActive) {

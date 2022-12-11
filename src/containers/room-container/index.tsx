@@ -7,6 +7,8 @@ import { actions } from "../../store/activity-slice";
 import { getActualTraidingData, TradingDataType } from "../../utils/get-actual-trading-data";
 
 const RoomContainer: React.FC = () => {
+  console.log("Render");
+  
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -29,23 +31,42 @@ const RoomContainer: React.FC = () => {
   // const start = useMemo(() => new Date(2022, 11, 9, 11, 2, 0).getTime(), []);
   // const finish = useMemo(() => new Date(2022, 11, 9, 12, 11, 0).getTime(), []);
 
+  // useLayoutEffect перерендером каждую секунду только если торги на момент перехода в комнату были активны
+  // useLayoutEffect(() => {
+  //   if (select.current) {
+  //     const data = getActualTraidingData(
+  //       (+select.current.startDate), 
+  //       (+select.current.now), 
+  //       (+select.current.expDate), 
+  //       select.current.bidders.length
+  //       );
+      
+  //     if (!tradingData) {
+  //         setTradingData(data);
+  //     } // запуск счетчика на старте пока tradingData не инициализирован
+
+  //     if (tradingData?.tradingIsActive) {
+  //       setTimeout(() => {
+  //         setTradingData(data);
+  //       }, 1000);
+  //     }
+
+  //   }
+  // }, [select, tradingData]);
+
+  // useLayoutEffect с перерендером каждую секунду => позволяет реагировать на начало и окончание торгов 
   useLayoutEffect(() => {
     if (select.current) {
       const data = getActualTraidingData(
         (+select.current.startDate), 
+        select.current.timeOffset, 
         (+select.current.expDate), 
         select.current.bidders.length
         );
       
-      if (!tradingData) {
-          setTradingData(data);
-      } // запуск счетчика на старте пока tradingData не инициализирован
-
-      if (tradingData?.tradingIsActive) {
         setTimeout(() => {
           setTradingData(data);
         }, 1000);
-      }
 
     }
   }, [select, tradingData]);

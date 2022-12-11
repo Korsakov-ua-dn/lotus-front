@@ -55,7 +55,11 @@ const activitySlice = createSlice({
         state.error = null;
       })
       .addCase(fetchOne.fulfilled, (state, action) => {
-        state.current = action.payload;
+        const now = new Date().getTime();
+        state.current = {
+          ...action.payload, 
+          timeOffset: now - (+action.payload.now),
+        };
         state.loading = false;
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
@@ -75,7 +79,7 @@ function isError(action: AnyAction) {
 // types
 type ActivtyStateType = {
   data: ActivityType[]
-  current: ActivityType | null
+  current: (ActivityType & {timeOffset: number}) | null
   loading: boolean
   error: string | null
 }

@@ -17,6 +17,7 @@ export const activityApi = {
 export type ActivityType = {
   title: string
   startDate: string
+  now: string
   expDate: string
   bidders: BiddersType[]
   _id: string
