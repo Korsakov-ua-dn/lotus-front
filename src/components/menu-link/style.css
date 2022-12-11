@@ -1,0 +1,9 @@
+.Menu-link {
+    display: flex;
+    align-items: center;
+}
+
+.Menu-link a.active {
+    color: blue;
+    scale: 1.2;
+}

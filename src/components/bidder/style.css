@@ -1,0 +1,28 @@
+.Bidder {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    min-width: 250px;
+}
+
+.Bidder__timer {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.Bidder__timer.Bidder__timer_active {
+    background-color: rgba(255, 182, 193, 0.8);
+    border-radius: 4px;
+    color: rgb(133, 0, 0);
+    font-weight: 700;
+}
+
+.Bidder__name,
+.Bidder__header {
+    font-size: 14px;
+}

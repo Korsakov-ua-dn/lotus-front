@@ -1,0 +1,7 @@
+.Bidder-table {
+    width: fit-content;
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid grey;
+}
