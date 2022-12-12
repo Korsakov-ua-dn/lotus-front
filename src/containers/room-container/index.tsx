@@ -7,7 +7,7 @@ import { actions } from "../../store/activity-slice";
 import { getActualTraidingData, TradingDataType } from "../../utils/get-actual-trading-data";
 
 const RoomContainer: React.FC = () => {
-  console.log("Render");
+  // console.log("Render");
   
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -35,11 +35,11 @@ const RoomContainer: React.FC = () => {
   // useLayoutEffect(() => {
   //   if (select.current) {
   //     const data = getActualTraidingData(
-  //       (+select.current.startDate), 
-  //       (+select.current.now), 
-  //       (+select.current.expDate), 
-  //       select.current.bidders.length
-  //       );
+  //             (+select.current.startDate), 
+  //             select.current.timeOffset, 
+  //             (+select.current.expDate), 
+  //             select.current.bidders.length
+  //             );
       
   //     if (!tradingData) {
   //         setTradingData(data);
@@ -63,6 +63,10 @@ const RoomContainer: React.FC = () => {
         (+select.current.expDate), 
         select.current.bidders.length
         );
+
+        if (!tradingData) {
+          setTradingData(data);
+        } // запуск счетчика на старте пока tradingData не инициализирован
       
         setTimeout(() => {
           setTradingData(data);
@@ -71,20 +75,17 @@ const RoomContainer: React.FC = () => {
     }
   }, [select, tradingData]);
 
-  if (!select.current) {
-    return null;
-  }
-
   return (
-    <LayoutModal  title={`Ход торгов ${select.current.title}`}
+    <LayoutModal  title={`Ход торгов ${select.current?.title}`}
                   onClose={callbacks.onClose}
                   labelClose={"Закрыть"}
     >
       { select.loading && "Загрузка информации..." }
 
-      { !tradingData?.tradingIsActive && "Торги в текущий момент не активны" }
+      { tradingData && !tradingData.tradingIsActive && "Торги в текущий момент не активны" }
 
       { 
+        select.current && 
         !select.loading && 
         tradingData?.tradingIsActive && 
         <BiddersTable selectActivity={select.current}
