@@ -1,5 +1,6 @@
 {
   "name": "lotus-front",
+  "homepage": "https://lotus-front-korsakov.vercel.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
