@@ -7,14 +7,13 @@ import { actions } from "../../store/activity-slice";
 import { getActualTraidingData, TradingDataType } from "../../utils/get-actual-trading-data";
 
 const RoomContainer: React.FC = () => {
-  // console.log("Render");
-  
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const select = useAppSelector((state) => ({
     current: state.activity.current,
     loading: state.activity.loading,
+    error: state.activity.error,
   }));
 
   const [tradingData, setTradingData] = useState<TradingDataType>();
@@ -76,11 +75,13 @@ const RoomContainer: React.FC = () => {
   }, [select, tradingData]);
 
   return (
-    <LayoutModal  title={`Ход торгов ${select.current?.title}`}
+    <LayoutModal  title={`Ход торгов ${select.current ? select.current.title : ""}`}
                   onClose={callbacks.onClose}
                   labelClose={"Закрыть"}
     >
       { select.loading && "Загрузка информации..." }
+      
+      {!select.loading && select.error}
 
       { tradingData && !tradingData.tradingIsActive && "Торги в текущий момент не активны" }
 

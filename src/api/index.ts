@@ -6,10 +6,10 @@ const instance = axios.create({
 
 export const activityApi = {
   getAll() {
-    return instance.get(`/api/activity`);
+    return instance.get<ActivityType[]>(`/api/activity`);
   },
   getOne(id: string) {
-    return instance.get(`/api/activity/${id}`);
+    return instance.get<ActivityType>(`/api/activity/${id}`);
   },
 };
 

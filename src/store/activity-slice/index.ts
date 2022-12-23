@@ -4,25 +4,32 @@ import { activityApi, ActivityType } from "../../api";
 // thunk
 export const fetchAll = createAsyncThunk<ActivityType[], undefined, { rejectValue: string }>
   ("activity/GET_ALL", async (_, { rejectWithValue }) => {
-  const response = await activityApi.getAll();
+    try {
 
-  if (response.status !== 200) {
-    return rejectWithValue("Some error occured, please try again");
-  }
-
-  return await response.data
-});
+      const response = await activityApi.getAll();
+      return await response.data
+      
+    } catch (err) {
+      return rejectWithValue("Some error occured, please try again");
+    }
+  });
 
 export const fetchOne = createAsyncThunk<ActivityType, string, { rejectValue: string }>
   ("activity/GET_ONE", async (id, { rejectWithValue }) => {
-  const response = await activityApi.getOne(id);
-  
-  if (response.status !== 200) {
-    return rejectWithValue("Some error occured, please try again");
-  }
+    try {
 
-  return await response.data;
-});
+      const response = await activityApi.getOne(id);
+      return await response.data
+      
+    } catch (err) {
+      return rejectWithValue("Произошла ошибка, попробуйте перезагрузить страницу.");
+    }
+  });
+
+// Обработка ошибок
+const isError = (action: AnyAction) => {
+  return action.type.endsWith('rejected');
+}
 
 // slice
 const initialState: ActivtyStateType = {
@@ -71,10 +78,6 @@ const activitySlice = createSlice({
 
 export const actions = activitySlice.actions
 export default activitySlice.reducer;
-
-function isError(action: AnyAction) {
-  return action.type.endsWith('rejected');
-}
 
 // types
 type ActivtyStateType = {
